@@ -155,6 +155,7 @@ note(`Scoring ${allDates.length} dates (${allDates[0]} to ${allDates[allDates.le
 const t0 = Date.now();
 let R = scoreAll(CFG0);
 note(`  done in ${((Date.now() - t0) / 1000).toFixed(1)}s`);
+R.forEach((r, i) => { r.cf = Scoring.confidence(R, i, CFG0); });   // confidence meter (shared logic in scoring.js)
 const byDate = new Map(R.map(r => [r.d, r]));
 const idxOnOrBefore = d => { let lo = 0, hi = N - 1, ans = -1; while (lo <= hi) { const m = (lo + hi) >> 1; if (tradeDates[m] <= d) { ans = m; lo = m + 1; } else hi = m - 1; } return ans; };
 const idxOnOrAfter = d => { let lo = 0, hi = N - 1, ans = -1; while (lo <= hi) { const m = (lo + hi) >> 1; if (tradeDates[m] >= d) { ans = m; hi = m - 1; } else lo = m + 1; } return ans; };
@@ -558,6 +559,41 @@ P();
   }
 }
 
+
+// ---- 9b. confidence meter
+P('## 9b. Flight-to-quality confidence meter');
+P();
+P('The Flight-to-quality box stays an early **warning**. The meter rates how well a warning is confirmed with three checks (logic in `scoring.js`, settings in `config.js` → `confidence`): (1) S ≥ 46 for 20 straight sessions, (2) recession layer A ≥ 50%, (3) shock type is not "Inflation/rates shock". It does not change S, T or the quadrant. Rule: 0 met = Early warning, 1 = Low, 2 = Moderate, 3 = High.');
+P();
+{
+  const med = a => a.length ? quantile(a.slice().sort((x, y) => x - y), 0.5) : null;
+  const ftqRows = R.filter(r => r.q === 'FTQ' && !r.live && r.d >= '2003-01-01');
+  P('All "Flight to quality" days, 2003 → present, by checks met (a flight-to-quality window = next 6-mo SPY ≤ −10% and TLT ≥ +5%):');
+  P();
+  table(['Checks met', 'Label', 'Days', 'FTQ-window precision', 'Median SPY next 6m', 'Median TLT next 6m'], [0, 1, 2, 3].map(m => {
+    const g = ftqRows.filter(r => r.cf.met === m && r.fS6 !== null && r.fT6 !== null);
+    const w = g.filter(r => r.fS6 <= -0.10 && r.fT6 >= 0.05).length;
+    return [m, CFG0.confidence.labels[m], g.length, g.length ? Math.round(w / g.length * 100) + '%' : 'n/a', g.length ? pct(med(g.map(r => r.fS6))) : 'n/a', g.length ? pct(med(g.map(r => r.fT6))) : 'n/a'];
+  }));
+  // entries: first FTQ day with no FTQ in the prior 273 calendar days (since 2000)
+  const dnum = d => Date.parse(d) / 864e5, ent = []; let lastF = null, prevOn = false;
+  R.forEach((r, i) => {
+    const on = r.q === 'FTQ';
+    if (on && !prevOn && r.d >= '2000-01-01' && (lastF === null || dnum(r.d) - dnum(lastF) > 273)) ent.push(i);
+    if (on) lastF = r.d; prevOn = on;
+  });
+  P('Entries into Flight to quality with no flight-to-quality day in the prior 9 months (since 2000). Outcome: hit if an NBER recession month occurs, or SPY falls ≥ 15% below the entry close, within 12 months. "Peak confidence" is the highest checks-met count reached during that flight-to-quality stretch.');
+  P();
+  table(['Entry date', 'S', 'T', 'Met at entry', 'Peak confidence in stretch', 'SPY next 6m', 'TLT next 6m', 'Outcome'], ent.map(i => {
+    const r = R[i]; let peak = 0, j = i; while (j < R.length && R[j].q === 'FTQ') { peak = Math.max(peak, R[j].cf.met); j++; }
+    let minP = r.spy, recess = false;
+    for (let k = i; k < R.length && !R[k].live && dnum(R[k].d) - dnum(r.d) <= 365; k++) { if (R[k].spy < minP) minP = R[k].spy; if (inRecessionBetween(R[k].d, R[k].d)) recess = true; }
+    const hit = recess || (1 - minP / r.spy) >= 0.15;
+    return [r.d, r.S, r.T, r.cf.met + ' of 3 (' + CFG0.confidence.labels[r.cf.met] + ')', peak + ' of 3', r.fS6 === null ? 'n/a' : pct(r.fS6), r.fT6 === null ? 'n/a' : pct(r.fT6), hit ? 'hit' : 'FALSE ALARM'];
+  }));
+  P('Small sample (about nine entries): this is a sanity check on the meter, not proof. The check thresholds (20 sessions, 50%) came from the earlier gate analysis in `backtest/ftq-gates.js` and were not tuned further.');
+  P();
+}
 P('## 10. Reproducing this report');
 P();
 P('```');
@@ -572,10 +608,12 @@ fs.writeFileSync(path.join(__dirname, 'backtest-report.md'), md.join('\n'), 'utf
   const cols = ['date'];
   CFG0.spy.forEach(d => cols.push('spy_' + d.key)); CFG0.tlt.forEach(d => cols.push('tlt_' + d.key));
   cols.push('layerA_pct', 'layerB_pct', 'layerC_pct', 'S', 'S_weight_loaded', 'confirmed', 'T', 'T_weight_loaded', 'rho63', 'quadrant', 'ftq_unconfirmed', 'shock', 'spy_adj', 'tlt_adj',
+    'conf_persist', 'conf_recession', 'conf_noshock', 'conf_met',
     'spy_fwd3m', 'spy_fwd6m', 'spy_fwd12m', 'tlt_fwd3m', 'tlt_fwd6m', 'tlt_fwd12m');
   const f = v => v === null || v === undefined ? '' : (typeof v === 'number' ? (Number.isInteger(v) ? v : +v.toFixed(5)) : v);
   const lines = [cols.join(',')];
   R.forEach(r => lines.push([r.d].concat(r.si, r.ti, [f(r.A), f(r.B), f(r.C), f(r.S), r.Sw, r.conf ? 1 : 0, f(r.T), r.Tw, f(r.rho), r.q, r.unc ? 1 : 0, r.shock, f(r.spy), f(r.tlt),
+    r.cf.persist ? 1 : 0, r.cf.recession ? 1 : 0, r.cf.noShock ? 1 : 0, r.cf.met,
     f(r.fS3), f(r.fS6), f(r.fS12), f(r.fT3), f(r.fT6), f(r.fT12)]).join(',')));
   fs.writeFileSync(path.join(__dirname, 'results.csv'), lines.join('\n'), 'utf8');
 }
@@ -593,7 +631,7 @@ fs.writeFileSync(path.join(__dirname, 'backtest-report.md'), md.join('\n'), 'utf
     tlt: tltAll.spread6 ? { medianFwd6mHigh: tltAll.spread6.hi, medianFwd6mLow: tltAll.spread6.lo } : null,
     syntheticTltCorr: val.corr,
     thresholdChanges: variantResults.filter(x => x.v.adopt).map(x => x.v.name),
-    latest: { date: last.d, S: last.S, T: last.T, A: last.A, B: last.B, C: last.C, confirmed: last.conf, quadrant: last.q, unconfirmed: last.unc, rho: last.rho, shock: last.shock }
+    latest: { date: last.d, S: last.S, T: last.T, A: last.A, B: last.B, C: last.C, confirmed: last.conf, quadrant: last.q, unconfirmed: last.unc, rho: last.rho, shock: last.shock, confidenceMet: last.cf.met, confidenceApplies: last.cf.applies }
   };
   fs.writeFileSync(path.join(__dirname, 'summary.js'), 'window.BACKTEST_SUMMARY = ' + JSON.stringify(summary, null, 1) + ';\n', 'utf8');
 }

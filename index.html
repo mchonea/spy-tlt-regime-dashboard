@@ -69,7 +69,8 @@
       <div data-quad="1"></div>
       <div>
         <div class="regime-label" id="regimeLabel"></div>
-        <ul class="quadkey" id="quadKey"></ul>
+        <div id="confMeter"></div>
+        <ul class="quadkey" id="quadKey" style="margin-top:12px"></ul>
       </div>
     </div>
   </div>
@@ -158,6 +159,7 @@
       var lab = $("regimeLabel");
       lab.textContent = D.quadName(cur); lab.className = "regime-label regime-" + cur.quadrant;
       renderQuadKey(cur);
+      $("confMeter").innerHTML = D.confidenceHtml(D.confidenceNow(st.H, cur), true);
       renderChanges(st);
     }
   });

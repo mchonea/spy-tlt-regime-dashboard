@@ -150,6 +150,26 @@
     return c;
   }
 
+  /* ---------------------------------------------------------------- confidence meter (shared logic: Scoring.confidence) */
+  function confidenceNow(H, cur) {
+    var hist = H.res.map(function (r) { return { S: r.spy.score, A: r.spy.layers.A.pct, shock: r.shock.type }; });
+    hist[hist.length - 1] = { S: cur.spy.score, A: cur.spy.layers.A.pct, shock: cur.shock.type };   // honors dev-only forced values
+    return S.confidence(hist, hist.length - 1, CFG);
+  }
+  function confidenceHtml(c, plain) {
+    var C = CFG.confidence, label = plain ? C.plainLabels[c.met] : C.labels[c.met];
+    var h = '<div class="conf"><div class="confhead">Confidence that the warning is real' + gl("confidence") + '</div>';
+    if (!c.applies) return h + '<div class="small">' + esc(C.notApplicable) + '</div></div>';
+    h += '<div class="confline"><strong>' + esc(label) + '</strong> <span class="small">(' + c.met + ' of 3 checks met)</span></div>';
+    h += '<div class="confbar" role="img" aria-label="' + c.met + ' of 3 checks met">' + [0, 1, 2].map(function (i) { return '<span class="' + (i < c.met ? "on" : "") + '"></span>'; }).join("") + "</div>";
+    h += '<ul class="confchecks">';
+    [["persist", c.persist], ["recession", c.recession], ["noShock", c.noShock]].forEach(function (x) {
+      var d = C.checks[x[0]];
+      h += '<li class="' + (x[1] ? "yes" : "no") + '"><span class="mark" aria-hidden="true">' + (x[1] ? "✓" : "✗") + '</span><span><strong>' + esc(d.name) + ' (' + (x[1] ? "met" : "not met") + '):</strong> ' + esc(x[1] ? d.met : d.notMet) + "</span></li>";
+    });
+    return h + "</ul></div>";
+  }
+
   /* ---------------------------------------------------------------- generated summary text (spec 12.4) */
   function checkWording(text) {
     var bad = [];
@@ -192,6 +212,8 @@
     out.lines.push(checkWording(line));
     // optional sentences
     if (s.confirmed) out.lines.push(checkWording(T.confirmed));
+    var cf = confidenceNow(H, cur);
+    if (cf.applies) out.lines.push(checkWording(fill(T.confidence, { label: CFG.confidence.plainLabels[cf.met].toLowerCase(), met: cf.met })));
     if (cur.shock.type === "Inflation/rates shock") out.lines.push(checkWording(T.shockInflation));
     else if (cur.shock.type === "Growth scare") out.lines.push(checkWording(T.shockGrowth));
     var sm = scoreAgo(H, "spy", 21), tm = scoreAgo(H, "tlt", 21);
@@ -816,7 +838,7 @@
 
   window.Dash = {
     CFG: CFG, S: S, state: state, start: start, $: $, esc: esc, gl: gl, fmtSigned: fmtSigned, fmtLong: fmtLong, fmtMonDay: fmtMonDay,
-    plainLabel: plainLabel, quadKeyOf: quadKeyOf, quadName: quadName, buildSummary: buildSummary, buildChanges: buildChanges,
+    plainLabel: plainLabel, quadKeyOf: quadKeyOf, quadName: quadName, buildSummary: buildSummary, buildChanges: buildChanges, confidenceNow: confidenceNow, confidenceHtml: confidenceHtml,
     indicatorCard: indicatorCard, priorHtml: priorHtml, RING: RING, checkWording: checkWording
   };
 })();

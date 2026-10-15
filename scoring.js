@@ -334,6 +334,19 @@
     return { asOf: asOf, spy: spy, tlt: tlt, rho: rho, shock: shock, quadrant: q.key, ftqUnconfirmed: q.unconfirmed };
   }
 
+  // ---------------------------------------------------------------- confidence meter (warning stays a warning)
+  // hist: array of { S, A, shock } per evaluated date (oldest first); i: index being rated.
+  // Three checks, each met or not: the signal has persisted, the recession layer agrees, it is not an inflation/rates shock.
+  function confidence(hist, i, cfg) {
+    var C = cfg.confidence, h = hist[i], run = 0, k;
+    for (k = i; k >= 0 && hist[k].S !== null && hist[k].S >= cfg.joint.spyHigh; k--) run++;
+    var persist = run >= C.persistSessions;
+    var recession = h.A !== null && h.A !== undefined && h.A >= C.layerAMin;
+    var noShock = h.shock !== 'Inflation/rates shock';
+    var met = (persist ? 1 : 0) + (recession ? 1 : 0) + (noShock ? 1 : 0);
+    return { persist: persist, recession: recession, noShock: noShock, met: met, total: 3, run: run, label: C.labels[met], applies: h.S !== null && h.S >= cfg.joint.spyHigh };
+  }
+
   // The live evaluation date: the day after the newest SPY price, so every observation published so far is usable
   function liveDate(prep) {
     var x = prep.s['P:SPY']; return x ? dayStr(x.dn[x.n - 1] + 1) : null;
@@ -355,7 +368,7 @@
 
   return {
     prepare: prepare, evaluate: evaluate, liveDate: liveDate, tradingDates: tradingDates,
-    rollingCorr: rollingCorr, shockType: shockType, quadrant: quadrant,
+    rollingCorr: rollingCorr, shockType: shockType, quadrant: quadrant, confidence: confidence,
     dayNum: dayNum, dayStr: dayStr, addDays: addDays, businessDaysBetween: businessDaysBetween,
     SPY_FN: SPY_FN, TLT_FN: TLT_FN, MAX_AGE: MAX_AGE
   };

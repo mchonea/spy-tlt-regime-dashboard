@@ -101,6 +101,19 @@ button:focus-visible, .navlink:focus-visible, .gl:focus-visible, summary:focus-v
 .kv .v { font-size: 20px; font-weight: 700; margin-top: 2px; }
 .kv .d { font-size: 13px; color: var(--muted); margin-top: 2px; }
 
+/* confidence meter */
+.conf { margin: 14px 0 4px; padding: 12px 14px; border: 1px solid var(--border); border-radius: 12px; background: var(--panel2); max-width: 70ch; }
+.confhead { font-size: 13px; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase; color: #c8d2e1; margin-bottom: 6px; }
+.confline { font-size: 17px; }
+.confbar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 8px 0 10px; }
+.confbar span { height: 10px; border-radius: 6px; background: #253149; }
+.confbar span.on { background: #7ee2a8; }
+.confchecks { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; font-size: 14px; line-height: 1.4; }
+.confchecks li { display: flex; gap: 8px; }
+.confchecks .mark { flex: none; width: 18px; font-weight: 800; }
+.confchecks .yes .mark { color: #7ee2a8; }
+.confchecks .no .mark { color: #ff8f83; }
+
 /* quadrant */
 .quadbox { position: relative; cursor: zoom-in; }
 .quadbox .expand { position: absolute; top: 2px; right: 2px; z-index: 2; width: 40px; height: 40px; padding: 0; font-size: 20px; line-height: 1; }

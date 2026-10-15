@@ -43,6 +43,8 @@ window.BACKTEST_SUMMARY = {
   "quadrant": "RISKON",
   "unconfirmed": false,
   "rho": 0.4039959702994729,
-  "shock": "Inflation/rates shock"
+  "shock": "Inflation/rates shock",
+  "confidenceMet": 0,
+  "confidenceApplies": false
  }
 };

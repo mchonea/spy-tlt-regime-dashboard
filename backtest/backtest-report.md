@@ -326,6 +326,35 @@ Compare the current rule (GREEN only for bull flattening) with "GREEN if 30Y 20-
 
 The alternative did not improve the spread in both periods, so the original rule was kept.
 
+## 9b. Flight-to-quality confidence meter
+
+The Flight-to-quality box stays an early **warning**. The meter rates how well a warning is confirmed with three checks (logic in `scoring.js`, settings in `config.js` → `confidence`): (1) S ≥ 46 for 20 straight sessions, (2) recession layer A ≥ 50%, (3) shock type is not "Inflation/rates shock". It does not change S, T or the quadrant. Rule: 0 met = Early warning, 1 = Low, 2 = Moderate, 3 = High.
+
+All "Flight to quality" days, 2003 → present, by checks met (a flight-to-quality window = next 6-mo SPY ≤ −10% and TLT ≥ +5%):
+
+| Checks met | Label | Days | FTQ-window precision | Median SPY next 6m | Median TLT next 6m |
+|---|---|---|---|---|---|
+| 0 | Early warning | 21 | 0% | 5.1% | -0.6% |
+| 1 | Low confidence | 153 | 2% | 18.2% | 1.6% |
+| 2 | Moderate confidence | 224 | 27% | 17.7% | -2.0% |
+| 3 | High confidence | 267 | 25% | -4.2% | 0.4% |
+
+Entries into Flight to quality with no flight-to-quality day in the prior 9 months (since 2000). Outcome: hit if an NBER recession month occurs, or SPY falls ≥ 15% below the entry close, within 12 months. "Peak confidence" is the highest checks-met count reached during that flight-to-quality stretch.
+
+| Entry date | S | T | Met at entry | Peak confidence in stretch | SPY next 6m | TLT next 6m | Outcome |
+|---|---|---|---|---|---|---|---|
+| 2000-10-27 | 56 | 50 | 1 of 3 (Low confidence) | 1 of 3 | -8.3% | 4.6% | hit |
+| 2007-08-17 | 53 | 78 | 1 of 3 (Low confidence) | 1 of 3 | -5.4% | 7.3% | hit |
+| 2010-07-01 | 53 | 83 | 1 of 3 (Low confidence) | 1 of 3 | 23.6% | -6.5% | FALSE ALARM |
+| 2011-08-31 | 50 | 94 | 1 of 3 (Low confidence) | 1 of 3 | 13.6% | 11.5% | FALSE ALARM |
+| 2016-02-12 | 47 | 89 | 1 of 3 (Low confidence) | 1 of 3 | 18.3% | 7.8% | FALSE ALARM |
+| 2018-12-24 | 47 | 83 | 1 of 3 (Low confidence) | 1 of 3 | 25.1% | 10.0% | FALSE ALARM |
+| 2020-03-10 | 50 | 89 | 1 of 3 (Low confidence) | 3 of 3 | 16.7% | 1.5% | hit |
+| 2022-07-06 | 53 | 50 | 0 of 3 (Early warning) | 0 of 3 | 1.0% | -9.2% | FALSE ALARM |
+| 2024-08-08 | 48 | 85 | 2 of 3 (Moderate confidence) | 2 of 3 | 14.7% | -4.7% | FALSE ALARM |
+
+Small sample (about nine entries): this is a sanity check on the meter, not proof. The check thresholds (20 sessions, 50%) came from the earlier gate analysis in `backtest/ftq-gates.js` and were not tuned further.
+
 ## 10. Reproducing this report
 
 ```

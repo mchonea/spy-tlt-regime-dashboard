@@ -90,6 +90,22 @@
       }
     },
 
+    // ---- confidence meter (added 2026-10-15). The Flight-to-quality box stays an early WARNING; this rates how well the
+    // warning is confirmed. Three checks, each met or not. Does not change S, T or the quadrant.
+    confidence: {
+      persistSessions: 20,      // check 1: S >= 46 for this many straight sessions
+      layerAMin: 0.5,           // check 2: recession layer (A) at least this share of its weight
+      // check 3: shock type is not "Inflation/rates shock"
+      labels: ['Early warning', 'Low confidence', 'Moderate confidence', 'High confidence'],
+      plainLabels: ['Very low', 'Low', 'Moderate', 'High'],
+      checks: {
+        persist:   { name: 'Lasting', met: 'Stock risk has stayed high for 4+ weeks.', notMet: 'Stock risk has not stayed high for 4+ weeks yet.' },
+        recession: { name: 'Economy agrees', met: 'Jobs and recession signals back up the warning.', notMet: 'Jobs and recession signals do not back it up yet.' },
+        noShock:   { name: 'Not an inflation shock', met: 'Moves do not look driven by inflation or rising rates.', notMet: 'Moves look driven by inflation or rising rates, when bonds hedge poorly.' }
+      },
+      notApplicable: 'Not applicable: stock-market risk is below the warning level (46).'
+    },
+
     // ---- SPY bear-market risk score (spec 6) ---------------------------------------
     // status values: ALERT 1.0 / WATCH 0.5 / CLEAR 0   (higher = more downside risk)
     layers: {
@@ -271,6 +287,7 @@
       confirmed: "Economic conditions and the stock market's own trend both point to elevated risk.",
       shockInflation: 'Recent moves look driven by inflation or rising rates, which is the situation where bonds hedge stocks poorly.',
       shockGrowth: 'Recent moves look like worries about economic growth, which is when Treasuries have usually helped.',
+      confidence: 'Confidence that the warning is real: {label} ({met} of 3 checks met).',
       jumpPoints: 15,
       jumpUp: 'Stock-market risk has risen quickly: up {n} points in the past month.',
       jumpDown: 'Stock-market risk has eased quickly: down {n} points in the past month.',
@@ -302,6 +319,7 @@
       rebased: 'Each line is set to 100 at the start so you can compare how they grew from the same starting point.',
       ftq: 'Money moving out of stocks and into safer assets such as U.S. Treasuries during stress.',
       recession: 'A broad drop in economic activity. In the U.S., the National Bureau of Economic Research (NBER) officially dates recessions, usually months after they begin.',
+      confidence: 'The map is an early warning. These three checks show how well the warning is backed up: it has lasted, the economy agrees, and it does not look like an inflation shock. More checks met means more confidence, not a guarantee.',
       pp: 'Percentage points. A rate moving from 4.0% to 4.5% rose 0.5 percentage points (50 basis points).'
     },
 
