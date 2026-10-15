@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SPY–TLT Regime Dashboard: All the Data</title>
+<link rel="stylesheet" href="dashboard.css" />
+</head>
+
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div>
+      <h1>SPY–TLT Regime Dashboard: all the data</h1>
+      <div class="asof" id="asOfBig">Data as of --</div>
+    </div>
+    <a class="navlink" href="index.html">← Back to summary</a>
+  </div>
+  <div class="sub">
+    Are conditions forming for a bear market or recession in SPY (the S&amp;P 500) while long Treasuries (TLT) rally? A rules-based view, built for bear markets and recessions (months to quarters), not 5–10% corrections.
+  </div>
+
+  <div id="banners"></div>
+
+  <div class="controls">
+    <button id="refreshBtn" type="button">Refresh data</button>
+    <span class="refreshnote" id="refreshNote" aria-live="polite"></span>
+    <button class="forget" id="forgetTok" type="button" style="display:none">Forget GitHub token</button>
+    <span class="small" id="dataFile">Data file: --</span>
+  </div>
+
+  <nav class="jump" aria-label="Jump to section">
+    <a href="#regime">Regime</a><a href="#charts">Charts</a><a href="#stockrisk">Stock risk</a><a href="#treasury">Treasury setup</a><a href="#model">Scoring model</a><a href="#backtest">Backtest</a>
+  </nav>
+
+  <!-- JOINT VIEW -->
+  <div class="card joint" id="regime">
+    <div data-quad="1"></div>
+    <div>
+      <div class="small">Current regime</div>
+      <div class="regime-label" id="regimeLabel">Loading…</div>
+      <div class="explain" id="regimeText"></div>
+      <div class="kv" id="jointKv"></div>
+      <div class="meta"><span id="asOf"></span></div>
+    </div>
+  </div>
+
+  <!-- CHARTS -->
+  <div id="charts">
+    <div class="rangebar"><span class="small">Time range for all three charts:</span><div data-range="1"></div></div>
+    <div class="card">
+      <h2>Scores over time</h2>
+      <div class="small">Stock risk score (S, SPY) and Treasury entry score (T, TLT), 0–100. Dashed line = 46, the threshold for each side of the map. Each day uses only data that had been published by then.</div>
+      <div class="chartbox"><canvas id="chScores"></canvas></div>
+      <div class="legend" id="legendScores"></div>
+    </div>
+    <div class="card">
+      <h2 id="priceTitle">SPY and TLT prices (total return, rebased to 100)</h2>
+      <div class="small">How $100 in each fund would have grown, including dividends, over the selected period.</div>
+      <div class="chartbox"><canvas id="chPrices"></canvas></div>
+      <div class="legend" id="legendPrices"></div>
+    </div>
+    <div class="card">
+      <h2 data-gl="correlation">Rolling 63-day correlation: SPY vs TLT daily total returns </h2>
+      <div class="chartbox short"><canvas id="chRho"></canvas></div>
+      <div class="small" style="margin-top:8px">Below zero = Treasuries have been hedging stocks. Above zero = they've been moving together.</div>
+    </div>
+  </div>
+
+  <!-- TWO COLUMNS -->
+  <div class="cols" style="margin-bottom:18px">
+    <div class="card" id="stockrisk">
+      <h2>SPY Bear-Market Risk</h2>
+      <div class="small">Higher = more downside risk. ALERT / WATCH / CLEAR: red / amber / grey.</div>
+      <div class="scorebox" style="margin-top:14px">
+        <div class="ring" id="spyRing" style="--pct:0"><div class="ring-inner"><div><div class="score" id="spyScore">--</div><div class="small">/ 100</div></div></div></div>
+        <div>
+          <div class="headline" id="spyHead">Loading…</div>
+          <div class="explain" id="spySummary"></div>
+          <div class="meta"><span id="spyCov"></span><span id="spyUpd"></span></div>
+        </div>
+      </div>
+      <div class="confirm off" id="spyConfirm"></div>
+      <div class="layers" id="spyLayers"></div>
+      <div id="spyGrid"></div>
+    </div>
+
+    <div class="card" id="treasury">
+      <h2>TLT Entry</h2>
+      <div class="small">Higher = more favorable for long-duration Treasuries<i class="gl" tabindex="0" role="button" aria-label="What is duration?" data-tip="" id="durGl">i</i>. Green = favorable.</div>
+      <div class="scorebox" style="margin-top:14px">
+        <div class="ring" id="tltRing" style="--pct:0"><div class="ring-inner"><div><div class="score" id="tltScore">--</div><div class="small">/ 100</div></div></div></div>
+        <div>
+          <div class="headline" id="tltHead">Loading…</div>
+          <div class="explain" id="tltSummary"></div>
+          <div class="meta"><span id="tltCov"></span><span id="tltUpd"></span></div>
+        </div>
+      </div>
+      <div class="grid" id="tltGrid"></div>
+    </div>
+  </div>
+
+  <!-- SCORING MODELS -->
+  <div id="model">
+    <details class="card">
+      <summary><h2>Scoring model: SPY Bear-Market Risk</h2><div class="small">Total = Σ(weight × status value), rescaled over the indicators that loaded. Click to see every threshold.</div></summary>
+      <div class="small" style="margin-top:10px">ALERT = 1.0, WATCH = 0.5, CLEAR = 0. Labels: 0–25 Clear · 26–45 Watch · 46–65 Elevated · 66–100 High risk.</div>
+      <div class="tscroll"><table id="spyModel"></table></div>
+    </details>
+    <details class="card">
+      <summary><h2>Scoring model: TLT Entry</h2><div class="small">GREEN = 1.0, YELLOW = 0.5, RED = 0. Click to see every threshold.</div></summary>
+      <div class="small" style="margin-top:10px">Labels: 0–25 · 26–45 · 46–65 · 66–80 · 81–100.</div>
+      <div class="tscroll"><table id="tltModel"></table></div>
+    </details>
+  </div>
+
+  <!-- BACKTEST SUMMARY -->
+  <details class="card" id="backtest">
+    <summary><h2>Backtest summary</h2><div class="small">Has the score ever worked? A small-sample sanity check. Click to expand.</div></summary>
+    <div id="btBody" class="small" style="margin-top:10px">Not available. Run <code>node backtest\run-backtest.js</code>.</div>
+  </details>
+
+  <div class="foot" id="foot"></div>
+
+</div>
+
+<script src="vendor/chart.umd.min.js"></script>
+<script src="config.js"></script>
+<script src="scoring.js"></script>
+<script src="market-data.js"></script>
+<script src="backtest/summary.js"></script>
+<script src="dashboard-common.js"></script>
+<script>
+(function () {
+  "use strict";
+  var D = window.Dash, CFG = D.CFG, $ = D.$, esc = D.esc, gl = D.gl;
+
+  function renderJoint(st) {
+    var cur = st.cur, Q = CFG.joint.quadrants, q = Q[D.quadKeyOf(cur)];
+    var lab = $("regimeLabel");
+    lab.textContent = q.label; lab.className = "regime-label regime-" + cur.quadrant;
+    var note = "";
+    if (!cur.spy.reliable || !cur.tlt.reliable) note = " Note: one score has low data coverage (under 50 weight points) and is not reliable.";
+    $("regimeText").textContent = q.text + note;
+    var rho = cur.rho, kv = "";
+    kv += '<div><div class="k">SPY Risk Score (S)</div><div class="v">' + (cur.spy.score === null ? "--" : cur.spy.score) + '</div><div class="d">' + esc(cur.spy.label || "") + '</div></div>';
+    kv += '<div><div class="k">TLT Entry Score (T)</div><div class="v">' + (cur.tlt.score === null ? "--" : cur.tlt.score) + '</div><div class="d">' + esc(cur.tlt.label || "") + '</div></div>';
+    kv += '<div><div class="k">SPY–TLT correlation (63d)' + gl("correlation") + '</div><div class="v">' + (rho === null ? "--" : D.fmtSigned(rho)) + '</div><div class="d">' + (rho === null ? "" : (rho > CFG.joint.corrUnconfirmed ? "stocks and bonds moving together" : (rho < 0 ? "bonds have been hedging" : "weak relationship"))) + '</div></div>';
+    kv += '<div><div class="k">Shock type</div><div class="v" style="font-size:16px">' + esc(cur.shock.type) + '</div><div class="d">' + esc(cur.shock.detail) + '</div></div>';
+    $("jointKv").innerHTML = kv;
+    $("asOf").textContent = "Score date " + cur.asOf + " (uses data published through " + st.H.last + ")";
+  }
+
+  function renderSpy(cur) {
+    var m = cur.spy, tot = CFG.spy.length;
+    $("spyScore").textContent = m.score === null ? "--" : m.score;
+    $("spyRing").style.setProperty("--pct", m.score === null ? 0 : m.score);
+    $("spyRing").style.setProperty("--ringc", D.RING[m.label] || "#7f93b0");
+    var head, text;
+    if (m.score === null) { head = "Data unavailable"; text = "No indicators loaded, so the dashboard cannot calculate a risk score."; }
+    else if (!m.reliable) { head = "Insufficient coverage"; text = "Only " + m.possible + " of 100 weight points loaded. The partial score (" + m.score + ") is shown for reference but is not a reliable signal."; }
+    else { head = m.headline + " (" + m.score + ")"; text = m.text; }
+    $("spyHead").textContent = head; $("spySummary").textContent = text;
+    $("spyCov").textContent = "Coverage: " + m.loaded + "/" + tot + " indicators";
+    $("spyUpd").textContent = "Latest observation: " + (m.newest || "--");
+    var c = $("spyConfirm");
+    if (m.confirmed) { c.className = "confirm on"; c.innerHTML = "CONFIRMED BEAR RISK<br>" + esc(CFG.confirmedText); }
+    else { c.className = "confirm off"; c.innerHTML = "<strong>Confirmed bear risk: not triggered.</strong> Needs the market layer (C) ≥ 50% of its weight and either recession (A) or credit (B) ≥ 50%."; }
+    var L = "";
+    ["A", "B", "C"].forEach(function (k) {
+      var l = m.layers[k], pct = l.pct === null ? null : Math.round(l.pct * 100);
+      L += '<div class="layer"><div class="row"><div><strong>Layer ' + k + '</strong> · ' + esc(l.name) + '</div><div>' + (pct === null ? "n/a" : pct + "%") + '</div></div>' +
+           '<div class="small">' + l.earned.toFixed(1).replace(/\.0$/, "") + ' of ' + l.possible + ' pts loaded (nominal ' + l.weight + ')</div>' +
+           '<div class="bar"><span style="width:' + (pct || 0) + '%"></span></div></div>';
+    });
+    $("spyLayers").innerHTML = L;
+    var g = "";
+    ["A", "B", "C"].forEach(function (k) {
+      g += '<div class="layerhead">Layer ' + k + ': ' + esc(CFG.layers[k].name) + '</div><div class="grid">';
+      m.items.filter(function (it) { return it.layer === k; }).forEach(function (it) { g += D.indicatorCard(it, "spy"); });
+      g += '</div>';
+    });
+    $("spyGrid").innerHTML = g;
+  }
+
+  function renderTlt(cur) {
+    var m = cur.tlt, tot = CFG.tlt.length;
+    $("tltScore").textContent = m.score === null ? "--" : m.score;
+    $("tltRing").style.setProperty("--pct", m.score === null ? 0 : m.score);
+    var head, text;
+    if (m.score === null) { head = "Data unavailable"; text = "No indicators loaded, so the dashboard cannot calculate a duration signal."; }
+    else if (!m.reliable) { head = "Insufficient coverage"; text = "Only " + m.possible + " of 100 weight points loaded. The partial score (" + m.score + ") is shown for reference but is not a reliable signal."; }
+    else { head = m.label + " (" + m.score + ")"; text = m.text; }
+    $("tltHead").textContent = head; $("tltSummary").textContent = text;
+    $("tltCov").textContent = "Coverage: " + m.loaded + "/" + tot + " indicators";
+    $("tltUpd").textContent = "Latest observation: " + (m.newest || "--");
+    $("tltGrid").innerHTML = m.items.map(function (it) { return D.indicatorCard(it, "tlt"); }).join("");
+  }
+
+  function renderModels() {
+    var h = '<thead><tr><th>Layer</th><th>Indicator</th><th>Wt</th><th>ALERT (1.0)</th><th>WATCH (0.5)</th><th>CLEAR (0)</th></tr></thead><tbody>';
+    CFG.spy.forEach(function (d) {
+      h += '<tr><td>' + d.layer + '</td><td>' + esc(d.name) + '</td><td>' + d.weight + '</td><td>' + esc(d.rules.alert) + '</td><td>' + esc(d.rules.watch) + '</td><td>' + esc(d.rules.clear) + '</td></tr>';
+    });
+    $("spyModel").innerHTML = h + '</tbody>';
+    h = '<thead><tr><th>Indicator</th><th>Wt</th><th>Green</th><th>Yellow</th><th>Red</th></tr></thead><tbody>';
+    CFG.tlt.forEach(function (d) {
+      h += '<tr><td>' + esc(d.name) + '</td><td>' + d.weight + '</td><td>' + esc(d.rules.green) + '</td><td>' + esc(d.rules.yellow) + '</td><td>' + esc(d.rules.red) + '</td></tr>';
+    });
+    $("tltModel").innerHTML = h + '</tbody>';
+  }
+
+  function renderBacktest(B, cur) {
+    var el = $("btBody");
+    if (!B) { el.innerHTML = 'Not available. Run <code>node backtest\\run-backtest.js</code> from this folder.'; return; }
+    function p(v, d) { return v === null || v === undefined ? "n/a" : (v * 100).toFixed(d === undefined ? 0 : d) + "%"; }
+    function n1(v) { return v === null || v === undefined ? "n/a" : v.toFixed(1); }
+    var h = '<div class="small">Backtest run ' + esc(B.generated) + ', data through ' + esc(B.dataThrough) + '. Small sample: a sanity check, not proof. Full detail: backtest/backtest-report.md.</div><div class="bt">';
+    h += '<div><div class="v">' + B.bears.detected + ' of ' + B.bears.n + '</div><div class="k">bear markets (≥20%) flagged by S ≥ 46 in the window around the peak; median lead ' + n1(B.bears.medianLeadMonths) + ' months (negative = after the peak)</div></div>';
+    h += '<div><div class="v">' + B.bears.confirmedDetected + ' of ' + B.bears.n + '</div><div class="k">flagged by "confirmed bear risk"; median lead ' + n1(B.bears.confirmedMedianLeadMonths) + ' months</div></div>';
+    h += '<div><div class="v">' + B.recessions.detected + ' of ' + B.recessions.n + '</div><div class="k">NBER recessions flagged; median lead ' + n1(B.recessions.medianLeadMonths) + ' months before the start</div></div>';
+    h += '<div><div class="v">' + B.falseAlarms.falseAlarms + ' of ' + B.falseAlarms.episodes + '</div><div class="k">signal episodes (S ≥ 46 for 20+ sessions) were false alarms (' + B.falseAlarms.sessions + ' sessions)</div></div>';
+    h += '<div><div class="v">' + p(B.ftq.precision) + ' / ' + p(B.ftq.recall) + '</div><div class="k">flight-to-quality precision / recall, 2003→present (base rate ' + p(B.ftq.baseRate, 1) + '; validation-period precision ' + p(B.ftq.precisionVal) + ')</div></div>';
+    if (B.tlt) h += '<div><div class="v">' + p(B.tlt.medianFwd6mHigh, 1) + ' vs ' + p(B.tlt.medianFwd6mLow, 1) + '</div><div class="k">median forward 6-month TLT return when T ≥ 46 vs T ≤ 45 (2003→present)</div></div>';
+    h += '</div>';
+    if (B.thresholdChanges && B.thresholdChanges.length) h += '<div class="small" style="margin-top:10px">Thresholds changed from the spec: ' + esc(B.thresholdChanges.join("; ")) + '.</div>';
+    else h += '<div class="small" style="margin-top:10px">No thresholds were changed from the starting values.</div>';
+    if (B.liveDate === cur.asOf) {
+      var ok = B.latest.S === cur.spy.score && B.latest.T === cur.tlt.score && B.latest.quadrant === cur.quadrant;
+      h += '<div class="small" style="margin-top:6px">Consistency check vs backtest results.csv for ' + esc(cur.asOf) + ': ' + (ok ? 'scores match (S ' + B.latest.S + ', T ' + B.latest.T + ').' : 'MISMATCH (backtest S ' + B.latest.S + ', T ' + B.latest.T + '): re-run the backtest after updating data.') + '</div>';
+    } else {
+      h += '<div class="small" style="margin-top:6px">The backtest file is from an earlier data date (' + esc(B.liveDate) + '); re-run it to refresh these numbers.</div>';
+    }
+    el.innerHTML = h;
+  }
+
+  $("durGl").setAttribute("data-tip", CFG.glossary.duration);
+
+  D.start({
+    render: function (st) {
+      renderModels();
+      if (!st.D) { $("regimeLabel").textContent = "Data unavailable"; $("regimeText").textContent = "market-data.js was not found."; $("dataFile").textContent = "Data file: not found"; return; }
+      var cur = st.cur;
+      renderJoint(st); renderSpy(cur); renderTlt(cur);
+      renderBacktest(window.BACKTEST_SUMMARY || null, st.H.res[st.H.res.length - 1]);
+      $("foot").innerHTML =
+        "Data sources: Federal Reserve Economic Data (FRED) for rates, credit, labor, volatility and financial-conditions series; dividend-adjusted daily prices for SPY, TLT, XLY and XLP from " + esc(st.D.priceSource || "unknown") +
+        ". Missing indicators are excluded and the score is rescaled across the ones that loaded; below 50 weight points a score is marked not reliable. " +
+        "Each day's score uses only data that would have been published by then. Thresholds are transparent and live in config.js. " +
+        "<br><br><strong>Decision-support framework, not a trading recommendation.</strong>";
+    }
+  });
+})();
+</script>
+</body>
+</html>

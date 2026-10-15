@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Stocks vs. Long Treasuries: Market Regime</title>
+<link rel="stylesheet" href="dashboard.css" />
+</head>
+
+<body>
+<div class="wrap">
+
+  <!-- 1. HEADER -->
+  <div class="topbar">
+    <div>
+      <h1>Stocks vs. Long Treasuries: Market Regime</h1>
+      <div class="asof" id="asOfBig">Data as of --</div>
+    </div>
+    <a class="navlink" href="market-dashboard.html">See all the data →</a>
+  </div>
+  <div class="controls">
+    <button id="refreshBtn" type="button">Refresh data</button>
+    <span class="refreshnote" id="refreshNote" aria-live="polite"></span>
+    <button class="forget" id="forgetTok" type="button" style="display:none">Forget GitHub token</button>
+  </div>
+
+  <!-- 2. BANNERS -->
+  <div id="banners"></div>
+
+  <!-- 3. THE SHORT VERSION -->
+  <div class="card short" id="shortCard">
+    <h2>The short version</h2>
+    <div class="hl" id="shortHead">Loading…</div>
+    <div id="shortLines"></div>
+  </div>
+
+  <!-- 4. TWO GAUGES -->
+  <div class="gauges">
+    <div class="card">
+      <div class="gname">Stock market risk</div>
+      <div class="scorebox">
+        <div class="ring" id="spyRing" style="--pct:0"><div class="ring-inner"><div><div class="score" id="spyScore">--</div><div class="small">of 100</div></div></div></div>
+        <div>
+          <div class="headline" id="spyHead"></div>
+          <div class="explain" id="spyMeaning"></div>
+        </div>
+      </div>
+      <div class="gprior" id="spyPrior"></div>
+    </div>
+    <div class="card">
+      <div class="gname">Long-term Treasury setup</div>
+      <div class="scorebox">
+        <div class="ring" id="tltRing" style="--pct:0"><div class="ring-inner"><div><div class="score" id="tltScore">--</div><div class="small">of 100</div></div></div></div>
+        <div>
+          <div class="headline" id="tltHead"></div>
+          <div class="explain" id="tltMeaning"></div>
+        </div>
+      </div>
+      <div class="gprior" id="tltPrior"></div>
+    </div>
+  </div>
+  <div class="small" style="margin:-6px 0 18px">Arrows show how today's score compares with then. For stock risk, up means risk has risen.</div>
+
+  <!-- 5. REGIME MAP -->
+  <div class="card">
+    <h2>Where today's two scores put us</h2>
+    <div class="small" style="margin-bottom:12px">The dot is today; the faint trail shows the last 60 trading days (as 5-day averages, to keep it clean). Click the map to enlarge it.</div>
+    <div class="quadmain">
+      <div data-quad="1"></div>
+      <div>
+        <div class="regime-label" id="regimeLabel"></div>
+        <ul class="quadkey" id="quadKey"></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. WHAT CHANGED -->
+  <div class="card">
+    <h2>What changed recently</h2>
+    <div class="small" id="changeSub"></div>
+    <ul class="changes" id="changes"></ul>
+    <div style="margin-top:10px" id="changeMore"></div>
+  </div>
+
+  <!-- 7. ONE TREND CHART -->
+  <div class="card">
+    <h2>Both scores over time</h2>
+    <div class="rangebar"><span class="small">Time range:</span><div data-range="1"></div></div>
+    <div class="chartbox"><canvas id="chScores"></canvas></div>
+    <div class="legend" id="legendScores"></div>
+    <div class="small" style="margin-top:8px">Above the dashed line (46) counts as "high" for that score.</div>
+  </div>
+
+  <!-- 8. WHAT THIS TRACKS -->
+  <details class="about" id="about">
+    <summary>What this tracks</summary>
+    <div id="aboutBody"></div>
+  </details>
+
+  <!-- 9. FOOTER -->
+  <div class="foot">Decision-support framework, not a trading recommendation. Built from public data (FRED, daily fund prices). Scores are rules-based and can be wrong; see the detail page for the full method and the historical test.</div>
+
+</div>
+
+<script src="vendor/chart.umd.min.js"></script>
+<script src="config.js"></script>
+<script src="scoring.js"></script>
+<script src="market-data.js"></script>
+<script src="dashboard-common.js"></script>
+<script>
+(function () {
+  "use strict";
+  var D = window.Dash, CFG = D.CFG, $ = D.$, esc = D.esc;
+
+  function gauge(kind, st) {
+    var m = st.cur[kind], pre = kind === "spy" ? "spy" : "tlt";
+    var labels = kind === "spy" ? CFG.spyLabels : CFG.tltLabels, meaning = "";
+    $(pre + "Score").textContent = m.score === null ? "--" : m.score;
+    $(pre + "Ring").style.setProperty("--pct", m.score === null ? 0 : m.score);
+    if (kind === "spy") $("spyRing").style.setProperty("--ringc", D.RING[m.label] || "#7f93b0");
+    if (m.score === null || !m.reliable) {
+      $(pre + "Head").textContent = "Not reliable";
+      $(pre + "Meaning").textContent = CFG.summary.unreliable;
+    } else {
+      $(pre + "Head").textContent = D.plainLabel(kind, m.score);
+      $(pre + "Meaning").textContent = m.text;
+    }
+    $(pre + "Prior").innerHTML = m.score === null ? "" : D.priorHtml(st.H, kind);
+  }
+
+  function renderQuadKey(cur) {
+    var names = { FTQ: "Flight to quality", NOHEDGE: "Duration won't hedge", BONDRALLY: "Bond rally, stocks OK", RISKON: "Risk-on / rates pressure" };
+    var html = "";
+    ["FTQ", "NOHEDGE", "BONDRALLY", "RISKON"].forEach(function (k) {
+      var on = cur.quadrant === k;
+      html += '<li' + (on ? ' class="on" aria-current="true"' : "") + '><strong>' + esc(names[k]) + (on ? " ← today" : "") + '</strong>' + esc(CFG.quadrantKey[k]) + '</li>';
+    });
+    $("quadKey").innerHTML = html;
+  }
+
+  function renderChanges(st) {
+    var items = D.buildChanges(st.H), max = CFG.summary.maxChanges, days = CFG.summary.changeWindowDays;
+    $("changeSub").textContent = "Compared with " + days + " trading days ago (about two weeks).";
+    var list = items.slice(0, max).map(function (c) { return "<li>" + c.html + "</li>"; });
+    if (!list.length) list = ["<li>No indicator changed status in the last 2 weeks.</li>"];
+    $("changes").innerHTML = list.join("");
+    $("changeMore").innerHTML = items.length > max ? '<a href="market-dashboard.html#stockrisk">See all indicators →</a>' : '<a href="market-dashboard.html#stockrisk">See all indicators →</a>';
+  }
+
+  D.start({
+    render: function (st) {
+      $("aboutBody").innerHTML = CFG.aboutText.join("");
+      if (!st.D) { $("shortHead").textContent = "Data unavailable."; return; }
+      var cur = st.cur, sum = D.buildSummary(st.H, cur);
+      $("shortHead").textContent = sum.headline;
+      $("shortLines").innerHTML = sum.lines.map(function (l) { return "<p>" + esc(l) + "</p>"; }).join("");
+      gauge("spy", st); gauge("tlt", st);
+      var lab = $("regimeLabel");
+      lab.textContent = D.quadName(cur); lab.className = "regime-label regime-" + cur.quadrant;
+      renderQuadKey(cur);
+      renderChanges(st);
+    }
+  });
+})();
+</script>
+</body>
+</html>

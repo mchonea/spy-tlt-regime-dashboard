@@ -1,0 +1,73 @@
+name: Update market data
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 12:00 UTC = 7:00 AM EST / 8:00 AM EDT; 23:30 UTC = 6:30 PM EST / 7:30 PM EDT.
+    # Cron can't follow daylight saving; later is safer for FRED's evening releases.
+    - cron: '0 12 * * *'
+    - cron: '30 23 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: market-data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run update-market-data.ps1
+        id: update
+        shell: powershell
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+          TIINGO_API_KEY: ${{ secrets.TIINGO_API_KEY }}
+        run: |
+          & .\update-market-data.ps1
+          $rc = $LASTEXITCODE
+          Write-Host "update-market-data.ps1 exit code: $rc"
+          if ($rc -eq 2) {
+            $txt = Get-Content .\market-data.js -Raw
+            $m = [regex]::Match($txt, '"failed"\s*:\s*\[([^\]]*)\]')
+            $list = if ($m.Success) { $m.Groups[1].Value -replace '"', '' } else { 'see update-log.txt' }
+            Write-Host "::warning::Partial failure. Failed series: $list"
+            exit 0
+          }
+          exit $rc
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # The backtest runs on every refresh. If it ever adds more than ~2 minutes,
+      # limit it to the evening run: if: github.event.schedule == '30 23 * * *'
+      - name: Run backtest
+        shell: bash
+        run: node backtest/run-backtest.js
+
+      - name: Commit data files
+        shell: bash
+        env:
+          TRIGGER: ${{ github.event_name }}
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add market-data.js history update-log.txt backtest/summary.js backtest/results.csv backtest/backtest-report.md
+          if git diff --cached --quiet; then
+            echo "No data changes to commit."
+            exit 0
+          fi
+          GEN=$(grep -o '"generated"[^,]*' market-data.js | head -1 | sed 's/.*: *"\(.*\)"/\1/')
+          git commit -m "data: update ${GEN} (${TRIGGER})"
+          for i in 1 2 3; do
+            git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+            echo "Push attempt $i failed; retrying..."
+            sleep 5
+          done
+          echo "::error::Could not push after 3 attempts."
+          exit 1
