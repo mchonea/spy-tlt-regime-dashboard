@@ -1,6 +1,6 @@
 # SPY–TLT Regime Dashboard: Backtest Report
 
-Generated 2026-10-21 by `backtest\run-backtest.js` using the same `scoring.js` / `config.js` as the dashboard. Data through 2026-10-20.
+Generated 2026-10-21 by `backtest\run-backtest.js` using the same `scoring.js` / `config.js` as the dashboard. Data through 2026-10-21.
 
 > **Read this first.** The sample contains only 4 bear markets (≥20% drawdown) and 4 NBER recessions since 1990, and they overlap. Everything below is a sanity check on whether the scores behaved sensibly, **not proof** that they work. Thresholds were set before looking at results; any change is listed under "Threshold changes".
 
@@ -41,7 +41,7 @@ Generated 2026-10-21 by `backtest\run-backtest.js` using the same `scoring.js` /
 
 **Truncated history: BAMLH0A0HYM2 (ICE BofA high-yield OAS) starts 2023-10-23** on FRED (ICE licensing limits FRED to about 3 years). The High-yield spread indicator therefore scores only from 2023-10-23; before that the SPY score relies on BAA10Y for credit, and the TLT score's high-yield indicator is missing (10 weight points rescaled). This is why the Baa–10Y indicator is in the spec.
 
-**Synthetic TLT validation:** monthly-return correlation synthetic vs actual TLT over 291 months = **0.9808** (annualised tracking error 2.75%) using the spec's D = 16.5, C = 380 (no tuning needed; target was > 0.95).
+**Synthetic TLT validation:** monthly-return correlation synthetic vs actual TLT over 291 months = **0.9807** (annualised tracking error 2.75%) using the spec's D = 16.5, C = 380 (no tuning needed; target was > 0.95).
 
 **No look-ahead:** daily FRED data and prices become usable the next day, weekly (ICSA, NFCI) +5 days, monthly (UNRATE, PAYEMS, SAHMREALTIME) on the 8th of the following month; USREC is used only to label outcomes. Forward returns start from the close of the signal date.
 
@@ -186,7 +186,7 @@ Quadrant needs both scores. TLT score has full indicator coverage only from 2003
 | Bond rally, stocks OK (S≤45, T≥46) | 54.1% | 4.0% [-4% – 10%] | 6.5% [-4% – 16%] | 12.4% [2% – 25%] | 1.3% [-7% – 9%] | 2.4% [-6% – 16%] | 6.6% [-8% – 23%] |
 | Risk-on / rates pressure (S≤45, T≤45) | 22.5% | 2.5% [-4% – 9%] | 5.9% [-2% – 15%] | 11.7% [-3% – 22%] | 2.5% [-4% – 9%] | 6.0% [-4% – 13%] | 7.4% [-4% – 24%] |
 
-### 2013–present (validation) (3471 sessions)
+### 2013–present (validation) (3472 sessions)
 
 | Quadrant | Share of days | SPY 3m | SPY 6m | SPY 12m | TLT 3m | TLT 6m | TLT 12m |
 |---|---|---|---|---|---|---|---|
@@ -195,14 +195,14 @@ Quadrant needs both scores. TLT score has full indicator coverage only from 2003
 | Bond rally, stocks OK (S≤45, T≥46) | 62.9% | 4.3% [-3% – 10%] | 7.8% [-2% – 15%] | 15.2% [-1% – 26%] | 0.7% [-8% – 8%] | 1.6% [-11% – 13%] | 0.2% [-10% – 23%] |
 | Risk-on / rates pressure (S≤45, T≤45) | 31.7% | 3.9% [-8% – 10%] | 7.6% [-6% – 16%] | 16.1% [-5% – 29%] | 0.3% [-9% – 8%] | 0.3% [-15% – 10%] | 1.3% [-13% – 17%] |
 
-### 2003–present (main) (5988 sessions)
+### 2003–present (main) (5989 sessions)
 
 | Quadrant | Share of days | SPY 3m | SPY 6m | SPY 12m | TLT 3m | TLT 6m | TLT 12m |
 |---|---|---|---|---|---|---|---|
 | Flight to quality (S≥46, T≥46) | 11.1% | 3.7% [-16% – 17%] | 9.3% [-32% – 27%] | 21.0% [-37% – 47%] | 1.5% [-8% – 9%] | -0.2% [-9% – 12%] | 4.6% [-15% – 16%] |
 | Duration won't hedge (S≥46, T≤45) | 1.8% | 8.7% [-9% – 15%] | 16.3% [-15% – 25%] | 18.3% [-41% – 40%] | 1.4% [-9% – 8%] | 2.9% [-7% – 8%] | 6.9% [-9% – 17%] |
 | Bond rally, stocks OK (S≤45, T≥46) | 59.2% | 4.2% [-3% – 10%] | 7.3% [-3% – 15%] | 14.1% [-0% – 25%] | 0.9% [-7% – 9%] | 1.9% [-9% – 14%] | 4.0% [-9% – 23%] |
-| Risk-on / rates pressure (S≤45, T≤45) | 27.8% | 3.3% [-6% – 9%] | 6.8% [-4% – 16%] | 13.9% [-5% – 27%] | 1.1% [-8% – 8%] | 2.4% [-11% – 12%] | 4.5% [-12% – 20%] |
+| Risk-on / rates pressure (S≤45, T≤45) | 27.9% | 3.3% [-6% – 9%] | 6.8% [-4% – 16%] | 13.9% [-5% – 27%] | 1.1% [-8% – 8%] | 2.4% [-11% – 12%] | 4.5% [-12% – 20%] |
 
 ## 6. Flight-to-quality precision and recall
 
@@ -211,8 +211,8 @@ FTQ window = next 6 months SPY total return ≤ −10% **and** TLT ≥ +5%. Both
 | Period | Days w/ fwd data | Base rate FTQ window | Quadrant days | Precision | Recall | FTQ windows (days) | Confirmed-only precision | Confirmed-only recall |
 |---|---|---|---|---|---|---|---|---|
 | 2003–2012 (calibration) | 2517 | 6.9% | 503 | 25.8% | 81.0% | 174 | 25.8% (503 days) | 81.0% |
-| 2013–present (validation) | 3345 | 0.7% | 162 | 0.0% | 0.0% | 22 | 0.0% (151 days) | 0.0% |
-| 2003–present | 5862 | 3.3% | 665 | 19.5% | 71.9% | 196 | 19.9% (654 days) | 71.9% |
+| 2013–present (validation) | 3346 | 0.7% | 162 | 0.0% | 0.0% | 22 | 0.0% (151 days) | 0.0% |
+| 2003–present | 5863 | 3.3% | 665 | 19.5% | 71.9% | 196 | 19.9% (654 days) | 71.9% |
 | 1990–2002 (supplementary) | 3280 | 7.5% | 421 | 9.7% | 62.8% | 247 | 13.2% (310 days) | 62.8% |
 
 "Confirmed-only" excludes days downgraded to "unconfirmed" because the 63-day SPY/TLT correlation was above +0.2.
@@ -221,7 +221,7 @@ FTQ window = next 6 months SPY total return ≤ −10% **and** TLT ≥ +5%. Both
 |---|---|---|---|---|
 | 2003–2012 (calibration) | 85 | 0 (0%) | 11 | 0.1% |
 | 2013–present (validation) | 25 | 0 (0%) | 0 | 2.5% |
-| 2003–present | 110 | 0 (0%) | 11 | 1.5% |
+| 2003–present | 110 | 0 (0%) | 11 | 1.4% |
 | 1990–2002 (supplementary) | 329 | 1 (0%) | 93 | 0.3% |
 
 ## 7. Does the TLT score alone have any value?
@@ -260,12 +260,12 @@ Median 6-mo forward TLT return: **1.9%** for T ≥ 46 (n=1865) vs **5.4%** for T
 |---|---|---|
 | 0–25 | -0.1% / -2.5% / 49% (189) | -4.5% / -2.4% / 35% (189) |
 | 26–45 | 0.4% / -0.4% / 52% (866) | 1.9% / 1.6% / 57% (848) |
-| 46–65 | 0.4% / 0.5% / 51% (791) | -0.4% / 1.7% / 49% (713) |
-| 66–80 | 1.2% / 1.4% / 55% (1046) | -0.5% / 1.4% / 49% (1018) |
+| 46–65 | 0.4% / 0.5% / 51% (792) | -0.4% / 1.7% / 49% (713) |
+| 66–80 | 1.2% / 1.4% / 55% (1046) | -0.5% / 1.4% / 49% (1019) |
 | 81–100 | 2.1% / 1.6% / 55% (453) | -1.6% / 3.9% / 46% (451) |
-| **All days** | 0.8% / 0.5% / 53% (3345) | -0.0% / 1.6% / 50% (3219) |
+| **All days** | 0.8% / 0.5% / 53% (3346) | -0.0% / 1.6% / 50% (3220) |
 
-Median 6-mo forward TLT return: **1.2%** for T ≥ 46 (n=2290) vs **0.1%** for T ≤ 45 (n=1055); difference 1.0%.
+Median 6-mo forward TLT return: **1.2%** for T ≥ 46 (n=2291) vs **0.1%** for T ≤ 45 (n=1055); difference 1.0%.
 
 ## 8. Episode hand-check
 
@@ -305,10 +305,10 @@ Metrics per period (SPY side: bear markets + recessions flagged, median lead in 
 |---|---|---|---|
 | Baseline (spec values) | 5/5 flagged, lead 4.5, FA 1 (20 d), TLT spread -3.5% | 3/3 flagged, lead -0.7, FA 2 (49 d), TLT spread 1.0% | – |
 | TLT curve rule: GREEN if 30Y 20-day change < 0 (any 2Y move) | 5/5 flagged, lead 4.5, FA 1 (20 d), TLT spread -3.4% | 3/3 flagged, lead -0.7, FA 2 (49 d), TLT spread 1.0% | not adopted (1791 sessions changed) |
-| SPY curve: re-steepening ALERT only if inverted within last 12 months | 5/5 flagged, lead 4.5, FA 1 (20 d), TLT spread -3.5% | 3/3 flagged, lead -0.7, FA 2 (49 d), TLT spread 1.0% | not adopted (1149 sessions changed) |
+| SPY curve: re-steepening ALERT only if inverted within last 12 months | 5/5 flagged, lead 4.5, FA 1 (20 d), TLT spread -3.5% | 3/3 flagged, lead -0.7, FA 2 (49 d), TLT spread 1.0% | not adopted (1150 sessions changed) |
 | SPY VIX: 50-day avg thresholds 22 / 18 | 5/5 flagged, lead 4.5, FA 1 (20 d), TLT spread -3.5% | 3/3 flagged, lead -0.7, FA 2 (49 d), TLT spread 1.0% | not adopted (1960 sessions changed) |
 | SPY trend: ALERT after 5 straight sessions below SMA | 5/5 flagged, lead 4.5, FA 1 (20 d), TLT spread -3.5% | 3/3 flagged, lead -0.7, FA 2 (49 d), TLT spread 1.0% | not adopted (57 sessions changed) |
-| SPY payrolls: thresholds 75k / 125k | 5/5 flagged, lead 4.5, FA 1 (20 d), TLT spread -3.5% | 3/3 flagged, lead -0.7, FA 2 (49 d), TLT spread 1.0% | not adopted (900 sessions changed) |
+| SPY payrolls: thresholds 75k / 125k | 5/5 flagged, lead 4.5, FA 1 (20 d), TLT spread -3.5% | 3/3 flagged, lead -0.7, FA 2 (49 d), TLT spread 1.0% | not adopted (901 sessions changed) |
 | SPY claims: thresholds 15% / 7.5% | 5/5 flagged, lead 4.5, FA 1 (20 d), TLT spread -3.5% | 3/3 flagged, lead -0.7, FA 3 (69 d), TLT spread 1.0% | not adopted (1010 sessions changed) |
 
 ### Threshold changes
