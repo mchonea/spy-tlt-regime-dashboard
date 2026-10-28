@@ -1,6 +1,6 @@
 # SPY–TLT Regime Dashboard: Backtest Report
 
-Generated 2026-10-27 by `backtest\run-backtest.js` using the same `scoring.js` / `config.js` as the dashboard. Data through 2026-10-27.
+Generated 2026-10-28 by `backtest\run-backtest.js` using the same `scoring.js` / `config.js` as the dashboard. Data through 2026-10-27.
 
 > **Read this first.** The sample contains only 4 bear markets (≥20% drawdown) and 4 NBER recessions since 1990, and they overlap. Everything below is a sanity check on whether the scores behaved sensibly, **not proof** that they work. Thresholds were set before looking at results; any change is listed under "Threshold changes".
 
@@ -32,7 +32,7 @@ Generated 2026-10-27 by `backtest\run-backtest.js` using the same `scoring.js` /
 | T10Y3M | 1982-01-04 | 2026-10-27 | 1982 |
 | SAHMREALTIME | 1959-12-01 | 2026-09-01 | 1959 |
 | ICSA | 1967-01-07 | 2026-10-17 | 1967 |
-| NFCI | 1971-01-08 | 2026-10-16 | 1971 |
+| NFCI | 1971-01-08 | 2026-10-23 | 1971 |
 | BAA10Y | 1986-01-02 | 2026-10-26 | 1986 |
 | VIXCLS | 1990-01-02 | 2026-10-26 | 1990 |
 | USREC | 1854-12-01 | 2026-09-01 | 1854 |
