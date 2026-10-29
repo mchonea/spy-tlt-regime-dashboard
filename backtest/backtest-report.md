@@ -1,6 +1,6 @@
 # SPY–TLT Regime Dashboard: Backtest Report
 
-Generated 2026-10-28 by `backtest\run-backtest.js` using the same `scoring.js` / `config.js` as the dashboard. Data through 2026-10-27.
+Generated 2026-10-29 by `backtest\run-backtest.js` using the same `scoring.js` / `config.js` as the dashboard. Data through 2026-10-27.
 
 > **Read this first.** The sample contains only 4 bear markets (≥20% drawdown) and 4 NBER recessions since 1990, and they overlap. Everything below is a sanity check on whether the scores behaved sensibly, **not proof** that they work. Thresholds were set before looking at results; any change is listed under "Threshold changes".
 
@@ -19,22 +19,22 @@ Generated 2026-10-28 by `backtest\run-backtest.js` using the same `scoring.js` /
 
 | Series | First obs | Last obs | Spec expected |
 |---|---|---|---|
-| DGS30 | 1977-02-15 | 2026-10-26 | 1977 |
-| DGS20 | 1962-01-02 | 2026-10-26 | 1993 (+1962–86) |
-| DGS10 | 1962-01-02 | 2026-10-26 | 1962 |
-| DGS2 | 1976-06-01 | 2026-10-26 | 1976 |
-| DFII10 | 2003-01-02 | 2026-10-26 | 2003 |
-| T10YIE | 2003-01-02 | 2026-10-27 | 2003 |
-| DFF | 1954-07-01 | 2026-10-26 | 1954 |
+| DGS30 | 1977-02-15 | 2026-10-27 | 1977 |
+| DGS20 | 1962-01-02 | 2026-10-27 | 1993 (+1962–86) |
+| DGS10 | 1962-01-02 | 2026-10-27 | 1962 |
+| DGS2 | 1976-06-01 | 2026-10-27 | 1976 |
+| DFII10 | 2003-01-02 | 2026-10-27 | 2003 |
+| T10YIE | 2003-01-02 | 2026-10-28 | 2003 |
+| DFF | 1954-07-01 | 2026-10-27 | 1954 |
 | UNRATE | 1948-01-01 | 2026-09-01 | 1948 |
 | PAYEMS | 1939-01-01 | 2026-09-01 | 1939 |
-| BAMLH0A0HYM2 | 2023-10-30 | 2026-10-26 | 1996 (verify) |
-| T10Y3M | 1982-01-04 | 2026-10-27 | 1982 |
+| BAMLH0A0HYM2 | 2023-10-30 | 2026-10-27 | 1996 (verify) |
+| T10Y3M | 1982-01-04 | 2026-10-28 | 1982 |
 | SAHMREALTIME | 1959-12-01 | 2026-09-01 | 1959 |
 | ICSA | 1967-01-07 | 2026-10-17 | 1967 |
 | NFCI | 1971-01-08 | 2026-10-23 | 1971 |
 | BAA10Y | 1986-01-02 | 2026-10-26 | 1986 |
-| VIXCLS | 1990-01-02 | 2026-10-26 | 1990 |
+| VIXCLS | 1990-01-02 | 2026-10-27 | 1990 |
 | USREC | 1854-12-01 | 2026-09-01 | 1854 |
 
 **Prices:** SPY from 1993-01-29 (dividend-adjusted close, Yahoo Finance); before that ^GSPC **price-only** (excludes dividends, understating pre-1993 total returns by about 3% a year), rescaled for continuity. TLT from 2002-07-30 (adjusted close); before that a **synthetic TLT** built from DGS20 (DGS30 where DGS20 is missing) with D = 16.5, C = 380. XLY/XLP from 1998-12 (the cyclicals/defensives indicator is unavailable before then and the score is rescaled).
