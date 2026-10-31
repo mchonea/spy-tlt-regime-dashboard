@@ -1,29 +1,3 @@
-2026-10-21 23:55:08  retry DFII10         attempt 2: no usable observations returned
-2026-10-21 23:55:14  FAIL  DFII10         no usable observations returned
-2026-10-21 23:55:14        DFII10         carried forward 5953 rows from history\DFII10.csv
-2026-10-21 23:55:15  retry T10YIE         attempt 1: no usable observations returned
-2026-10-21 23:55:18  retry T10YIE         attempt 2: no usable observations returned
-2026-10-21 23:55:25  FAIL  T10YIE         no usable observations returned
-2026-10-21 23:55:25        T10YIE         carried forward 5954 rows from history\T10YIE.csv
-2026-10-21 23:55:25  retry DFF            attempt 1: no usable observations returned
-2026-10-21 23:55:28  retry DFF            attempt 2: no usable observations returned
-2026-10-21 23:55:34  FAIL  DFF            no usable observations returned
-2026-10-21 23:55:35        DFF            carried forward 26409 rows from history\DFF.csv
-2026-10-21 23:55:35  retry UNRATE         attempt 1: no usable observations returned
-2026-10-21 23:55:38  retry UNRATE         attempt 2: no usable observations returned
-2026-10-21 23:55:45  FAIL  UNRATE         no usable observations returned
-2026-10-21 23:55:45        UNRATE         carried forward 944 rows from history\UNRATE.csv
-2026-10-21 23:55:45  retry PAYEMS         attempt 1: no usable observations returned
-2026-10-21 23:55:48  retry PAYEMS         attempt 2: no usable observations returned
-2026-10-21 23:55:55  FAIL  PAYEMS         no usable observations returned
-2026-10-21 23:55:55        PAYEMS         carried forward 1053 rows from history\PAYEMS.csv
-2026-10-21 23:55:55  retry BAMLH0A0HYM2   attempt 1: no usable observations returned
-2026-10-21 23:55:58  retry BAMLH0A0HYM2   attempt 2: no usable observations returned
-2026-10-21 23:56:05  FAIL  BAMLH0A0HYM2   no usable observations returned
-2026-10-21 23:56:05        BAMLH0A0HYM2   carried forward 784 rows from history\BAMLH0A0HYM2.csv
-2026-10-21 23:56:05  retry T10Y3M         attempt 1: no usable observations returned
-2026-10-21 23:56:08  retry T10Y3M         attempt 2: no usable observations returned
-2026-10-21 23:56:15  FAIL  T10Y3M         no usable observations returned
 2026-10-21 23:56:15        T10Y3M         carried forward 11202 rows from history\T10Y3M.csv
 2026-10-21 23:56:15  retry SAHMREALTIME   attempt 1: no usable observations returned
 2026-10-21 23:56:19  retry SAHMREALTIME   attempt 2: no usable observations returned
@@ -498,3 +472,29 @@
 2026-10-30 12:48:10  OK    XLP              7006 rows  1998-12-22 -> 2026-10-29  [Yahoo]
 2026-10-30 12:48:11  OK    ^GSPC           14329 rows  1970-01-02 -> 2026-10-29  [Yahoo]
 2026-10-30 12:48:11  Wrote market-data.js (17/17 FRED series, 5/5 price series; price source: Yahoo).
+2026-10-31 02:38:56  ---- run start ----
+2026-10-31 02:38:56  FRED source: official API (FRED key: environment)
+2026-10-31 02:38:56  Tiingo key: none
+2026-10-31 02:38:57  OK    DGS30           12422 observations  1977-02-15 -> 2026-10-29
+2026-10-31 02:38:58  OK    DGS20           14503 observations  1962-01-02 -> 2026-10-29
+2026-10-31 02:38:58  OK    DGS10           16192 observations  1962-01-02 -> 2026-10-29
+2026-10-31 02:38:59  OK    DGS2            12600 observations  1976-06-01 -> 2026-10-29
+2026-10-31 02:39:00  OK    DFII10           5961 observations  2003-01-02 -> 2026-10-29
+2026-10-31 02:39:01  OK    T10YIE           5962 observations  2003-01-02 -> 2026-10-30
+2026-10-31 02:39:01  OK    DFF             26419 observations  1954-07-01 -> 2026-10-29
+2026-10-31 02:39:02  OK    UNRATE            944 observations  1948-01-01 -> 2026-09-01
+2026-10-31 02:39:03  OK    PAYEMS           1053 observations  1939-01-01 -> 2026-09-01
+2026-10-31 02:39:04  OK    BAMLH0A0HYM2      786 observations  2023-10-31 -> 2026-10-29
+2026-10-31 02:39:05  OK    T10Y3M          11210 observations  1982-01-04 -> 2026-10-30
+2026-10-31 02:39:05  OK    SAHMREALTIME      801 observations  1959-12-01 -> 2026-09-01
+2026-10-31 02:39:06  OK    ICSA             3121 observations  1967-01-07 -> 2026-10-24
+2026-10-31 02:39:07  OK    NFCI             2912 observations  1971-01-08 -> 2026-10-23
+2026-10-31 02:39:08  OK    BAA10Y          10207 observations  1986-01-02 -> 2026-10-29
+2026-10-31 02:39:08  OK    VIXCLS           9306 observations  1990-01-02 -> 2026-10-29
+2026-10-31 02:39:09  OK    USREC            2062 observations  1854-12-01 -> 2026-09-01
+2026-10-31 02:39:10  OK    SPY              8497 rows  1993-01-29 -> 2026-10-30  [Yahoo]
+2026-10-31 02:39:11  OK    TLT              6104 rows  2002-07-30 -> 2026-10-30  [Yahoo]
+2026-10-31 02:39:12  OK    XLY              7007 rows  1998-12-22 -> 2026-10-30  [Yahoo]
+2026-10-31 02:39:13  OK    XLP              7007 rows  1998-12-22 -> 2026-10-30  [Yahoo]
+2026-10-31 02:39:14  OK    ^GSPC           14330 rows  1970-01-02 -> 2026-10-30  [Yahoo]
+2026-10-31 02:39:15  Wrote market-data.js (17/17 FRED series, 5/5 price series; price source: Yahoo).
