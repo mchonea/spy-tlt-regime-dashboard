@@ -1,6 +1,6 @@
 # SPY–TLT Regime Dashboard: Backtest Report
 
-Generated 2026-11-03 by `backtest\run-backtest.js` using the same `scoring.js` / `config.js` as the dashboard. Data through 2026-11-03.
+Generated 2026-11-04 by `backtest\run-backtest.js` using the same `scoring.js` / `config.js` as the dashboard. Data through 2026-11-03.
 
 > **Read this first.** The sample contains only 4 bear markets (≥20% drawdown) and 4 NBER recessions since 1990, and they overlap. Everything below is a sanity check on whether the scores behaved sensibly, **not proof** that they work. Thresholds were set before looking at results; any change is listed under "Threshold changes".
 
@@ -11,7 +11,7 @@ Generated 2026-11-03 by `backtest\run-backtest.js` using the same `scoring.js` /
 - **False alarms** (S ≥ 46 for ≥ 20 sessions, not followed within 12 months by a ≥15% SPY drawdown or an NBER recession): 3 of 10 signal episodes, 69 sessions.
 - **Flight-to-quality quadrant, 2003→present:** precision 19.5% (base rate of FTQ windows 3.3%), recall 71.9%.
 - **TLT score alone, 2003→present:** median forward 6-month TLT total return 1.5% when T ≥ 46 vs 2.4% when T ≤ 45.
-- **Synthetic TLT (pre-2002-07):** monthly correlation vs real TLT 0.981 (291 months).
+- **Synthetic TLT (pre-2002-07):** monthly correlation vs real TLT 0.981 (292 months).
 
 ## 2. Data sources, coverage and limitations
 
@@ -19,21 +19,21 @@ Generated 2026-11-03 by `backtest\run-backtest.js` using the same `scoring.js` /
 
 | Series | First obs | Last obs | Spec expected |
 |---|---|---|---|
-| DGS30 | 1977-02-15 | 2026-10-30 | 1977 |
-| DGS20 | 1962-01-02 | 2026-10-30 | 1993 (+1962–86) |
-| DGS10 | 1962-01-02 | 2026-10-30 | 1962 |
-| DGS2 | 1976-06-01 | 2026-10-30 | 1976 |
-| DFII10 | 2003-01-02 | 2026-10-30 | 2003 |
-| T10YIE | 2003-01-02 | 2026-11-02 | 2003 |
-| DFF | 1954-07-01 | 2026-10-30 | 1954 |
+| DGS30 | 1977-02-15 | 2026-11-02 | 1977 |
+| DGS20 | 1962-01-02 | 2026-11-02 | 1993 (+1962–86) |
+| DGS10 | 1962-01-02 | 2026-11-02 | 1962 |
+| DGS2 | 1976-06-01 | 2026-11-02 | 1976 |
+| DFII10 | 2003-01-02 | 2026-11-02 | 2003 |
+| T10YIE | 2003-01-02 | 2026-11-03 | 2003 |
+| DFF | 1954-07-01 | 2026-11-02 | 1954 |
 | UNRATE | 1948-01-01 | 2026-09-01 | 1948 |
 | PAYEMS | 1939-01-01 | 2026-09-01 | 1939 |
 | BAMLH0A0HYM2 | 2023-11-06 | 2026-11-02 | 1996 (verify) |
-| T10Y3M | 1982-01-04 | 2026-11-02 | 1982 |
+| T10Y3M | 1982-01-04 | 2026-11-03 | 1982 |
 | SAHMREALTIME | 1959-12-01 | 2026-09-01 | 1959 |
 | ICSA | 1967-01-07 | 2026-10-24 | 1967 |
 | NFCI | 1971-01-08 | 2026-10-23 | 1971 |
-| BAA10Y | 1986-01-02 | 2026-10-30 | 1986 |
+| BAA10Y | 1986-01-02 | 2026-11-02 | 1986 |
 | VIXCLS | 1990-01-02 | 2026-11-02 | 1990 |
 | USREC | 1854-12-01 | 2026-10-01 | 1854 |
 
@@ -41,7 +41,7 @@ Generated 2026-11-03 by `backtest\run-backtest.js` using the same `scoring.js` /
 
 **Truncated history: BAMLH0A0HYM2 (ICE BofA high-yield OAS) starts 2023-11-06** on FRED (ICE licensing limits FRED to about 3 years). The High-yield spread indicator therefore scores only from 2023-11-06; before that the SPY score relies on BAA10Y for credit, and the TLT score's high-yield indicator is missing (10 weight points rescaled). This is why the Baa–10Y indicator is in the spec.
 
-**Synthetic TLT validation:** monthly-return correlation synthetic vs actual TLT over 291 months = **0.9809** (annualised tracking error 2.75%) using the spec's D = 16.5, C = 380 (no tuning needed; target was > 0.95).
+**Synthetic TLT validation:** monthly-return correlation synthetic vs actual TLT over 292 months = **0.9806** (annualised tracking error 2.76%) using the spec's D = 16.5, C = 380 (no tuning needed; target was > 0.95).
 
 **No look-ahead:** daily FRED data and prices become usable the next day, weekly (ICSA, NFCI) +5 days, monthly (UNRATE, PAYEMS, SAHMREALTIME) on the 8th of the following month; USREC is used only to label outcomes. Forward returns start from the close of the signal date.
 
@@ -193,7 +193,7 @@ Quadrant needs both scores. TLT score has full indicator coverage only from 2003
 | Flight to quality (S≥46, T≥46) | 4.6% | 12.0% [-0% – 21%] | 20.0% [5% – 31%] | 38.2% [17% – 55%] | 0.1% [-7% – 3%] | -2.4% [-9% – 8%] | -10.5% [-16% – 4%] |
 | Duration won't hedge (S≥46, T≤45) | 0.8% | 6.5% [-5% – 15%] | 5.5% [1% – 22%] | 19.6% [8% – 39%] | -1.1% [-11% – 4%] | -6.3% [-13% – 5%] | -9.1% [-13% – 2%] |
 | Bond rally, stocks OK (S≤45, T≥46) | 63.1% | 4.3% [-3% – 10%] | 7.8% [-2% – 15%] | 15.2% [-1% – 26%] | 0.7% [-8% – 8%] | 1.6% [-11% – 13%] | 0.1% [-10% – 23%] |
-| Risk-on / rates pressure (S≤45, T≤45) | 31.5% | 3.8% [-8% – 10%] | 7.7% [-6% – 16%] | 16.2% [-5% – 29%] | 0.3% [-9% – 8%] | 0.3% [-15% – 10%] | 1.3% [-13% – 18%] |
+| Risk-on / rates pressure (S≤45, T≤45) | 31.5% | 3.8% [-8% – 10%] | 7.7% [-6% – 16%] | 16.2% [-5% – 29%] | 0.2% [-9% – 8%] | 0.3% [-15% – 10%] | 1.3% [-13% – 18%] |
 
 ### 2003–present (main) (5998 sessions)
 
@@ -265,7 +265,7 @@ Median 6-mo forward TLT return: **1.9%** for T ≥ 46 (n=1865) vs **5.4%** for T
 | 81–100 | 2.1% / 1.6% / 55% (458) | -1.6% / 3.9% / 47% (457) |
 | **All days** | 0.7% / 0.5% / 53% (3355) | -0.0% / 1.6% / 50% (3229) |
 
-Median 6-mo forward TLT return: **1.1%** for T ≥ 46 (n=2300) vs **0.1%** for T ≤ 45 (n=1055); difference 0.9%.
+Median 6-mo forward TLT return: **1.0%** for T ≥ 46 (n=2300) vs **0.1%** for T ≤ 45 (n=1055); difference 0.9%.
 
 ## 8. Episode hand-check
 
@@ -321,8 +321,8 @@ Compare the current rule (GREEN only for bull flattening) with "GREEN if 30Y 20-
 
 | Rule | 1990–2012 spread | 2013–present spread |
 |---|---|---|
-| Current (bull flattening only) | -3.5% (hi 1.9%, lo 5.4%) | 0.9% (hi 1.1%, lo 0.1%) |
-| Alternative (30Y falling) | -3.4% (hi 2.0%, lo 5.5%) | 0.9% (hi 1.1%, lo 0.1%) |
+| Current (bull flattening only) | -3.5% (hi 1.9%, lo 5.4%) | 0.9% (hi 1.0%, lo 0.1%) |
+| Alternative (30Y falling) | -3.4% (hi 2.0%, lo 5.5%) | 0.9% (hi 1.0%, lo 0.1%) |
 
 The alternative did not improve the spread in both periods, so the original rule was kept.
 
