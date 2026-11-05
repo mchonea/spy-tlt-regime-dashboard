@@ -1,6 +1,6 @@
 # SPY–TLT Regime Dashboard: Backtest Report
 
-Generated 2026-11-04 by `backtest\run-backtest.js` using the same `scoring.js` / `config.js` as the dashboard. Data through 2026-11-04.
+Generated 2026-11-05 by `backtest\run-backtest.js` using the same `scoring.js` / `config.js` as the dashboard. Data through 2026-11-04.
 
 > **Read this first.** The sample contains only 4 bear markets (≥20% drawdown) and 4 NBER recessions since 1990, and they overlap. Everything below is a sanity check on whether the scores behaved sensibly, **not proof** that they work. Thresholds were set before looking at results; any change is listed under "Threshold changes".
 
@@ -19,21 +19,21 @@ Generated 2026-11-04 by `backtest\run-backtest.js` using the same `scoring.js` /
 
 | Series | First obs | Last obs | Spec expected |
 |---|---|---|---|
-| DGS30 | 1977-02-15 | 2026-11-02 | 1977 |
-| DGS20 | 1962-01-02 | 2026-11-02 | 1993 (+1962–86) |
-| DGS10 | 1962-01-02 | 2026-11-02 | 1962 |
-| DGS2 | 1976-06-01 | 2026-11-02 | 1976 |
-| DFII10 | 2003-01-02 | 2026-11-02 | 2003 |
-| T10YIE | 2003-01-02 | 2026-11-03 | 2003 |
-| DFF | 1954-07-01 | 2026-11-02 | 1954 |
+| DGS30 | 1977-02-15 | 2026-11-03 | 1977 |
+| DGS20 | 1962-01-02 | 2026-11-03 | 1993 (+1962–86) |
+| DGS10 | 1962-01-02 | 2026-11-03 | 1962 |
+| DGS2 | 1976-06-01 | 2026-11-03 | 1976 |
+| DFII10 | 2003-01-02 | 2026-11-03 | 2003 |
+| T10YIE | 2003-01-02 | 2026-11-04 | 2003 |
+| DFF | 1954-07-01 | 2026-11-03 | 1954 |
 | UNRATE | 1948-01-01 | 2026-09-01 | 1948 |
 | PAYEMS | 1939-01-01 | 2026-09-01 | 1939 |
 | BAMLH0A0HYM2 | 2023-11-06 | 2026-11-03 | 1996 (verify) |
-| T10Y3M | 1982-01-04 | 2026-11-03 | 1982 |
+| T10Y3M | 1982-01-04 | 2026-11-04 | 1982 |
 | SAHMREALTIME | 1959-12-01 | 2026-09-01 | 1959 |
 | ICSA | 1967-01-07 | 2026-10-24 | 1967 |
 | NFCI | 1971-01-08 | 2026-10-30 | 1971 |
-| BAA10Y | 1986-01-02 | 2026-11-02 | 1986 |
+| BAA10Y | 1986-01-02 | 2026-11-03 | 1986 |
 | VIXCLS | 1990-01-02 | 2026-11-03 | 1990 |
 | USREC | 1854-12-01 | 2026-10-01 | 1854 |
 
@@ -265,7 +265,7 @@ Median 6-mo forward TLT return: **1.9%** for T ≥ 46 (n=1865) vs **5.4%** for T
 | 81–100 | 2.1% / 1.6% / 55% (458) | -1.6% / 3.9% / 47% (457) |
 | **All days** | 0.7% / 0.5% / 53% (3356) | -0.0% / 1.6% / 50% (3230) |
 
-Median 6-mo forward TLT return: **1.0%** for T ≥ 46 (n=2300) vs **0.1%** for T ≤ 45 (n=1056); difference 0.9%.
+Median 6-mo forward TLT return: **1.1%** for T ≥ 46 (n=2300) vs **0.1%** for T ≤ 45 (n=1056); difference 0.9%.
 
 ## 8. Episode hand-check
 
@@ -321,8 +321,8 @@ Compare the current rule (GREEN only for bull flattening) with "GREEN if 30Y 20-
 
 | Rule | 1990–2012 spread | 2013–present spread |
 |---|---|---|
-| Current (bull flattening only) | -3.5% (hi 1.9%, lo 5.4%) | 0.9% (hi 1.0%, lo 0.1%) |
-| Alternative (30Y falling) | -3.4% (hi 2.0%, lo 5.5%) | 0.9% (hi 1.0%, lo 0.1%) |
+| Current (bull flattening only) | -3.5% (hi 1.9%, lo 5.4%) | 0.9% (hi 1.1%, lo 0.1%) |
+| Alternative (30Y falling) | -3.4% (hi 2.0%, lo 5.5%) | 0.9% (hi 1.1%, lo 0.1%) |
 
 The alternative did not improve the spread in both periods, so the original rule was kept.
 
