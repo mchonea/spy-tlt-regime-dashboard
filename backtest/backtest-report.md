@@ -41,7 +41,7 @@ Generated 2026-11-07 by `backtest\run-backtest.js` using the same `scoring.js` /
 
 **Truncated history: BAMLH0A0HYM2 (ICE BofA high-yield OAS) starts 2023-11-07** on FRED (ICE licensing limits FRED to about 3 years). The High-yield spread indicator therefore scores only from 2023-11-07; before that the SPY score relies on BAA10Y for credit, and the TLT score's high-yield indicator is missing (10 weight points rescaled). This is why the Baa–10Y indicator is in the spec.
 
-**Synthetic TLT validation:** monthly-return correlation synthetic vs actual TLT over 292 months = **0.9807** (annualised tracking error 2.76%) using the spec's D = 16.5, C = 380 (no tuning needed; target was > 0.95).
+**Synthetic TLT validation:** monthly-return correlation synthetic vs actual TLT over 292 months = **0.9808** (annualised tracking error 2.75%) using the spec's D = 16.5, C = 380 (no tuning needed; target was > 0.95).
 
 **No look-ahead:** daily FRED data and prices become usable the next day, weekly (ICSA, NFCI) +5 days, monthly (UNRATE, PAYEMS, SAHMREALTIME) on the 8th of the following month; USREC is used only to label outcomes. Forward returns start from the close of the signal date.
 
