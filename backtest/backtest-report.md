@@ -1,6 +1,6 @@
 # SPY–TLT Regime Dashboard: Backtest Report
 
-Generated 2026-11-10 by `backtest\run-backtest.js` using the same `scoring.js` / `config.js` as the dashboard. Data through 2026-11-10.
+Generated 2026-11-11 by `backtest\run-backtest.js` using the same `scoring.js` / `config.js` as the dashboard. Data through 2026-11-10.
 
 > **Read this first.** The sample contains only 4 bear markets (≥20% drawdown) and 4 NBER recessions since 1990, and they overlap. Everything below is a sanity check on whether the scores behaved sensibly, **not proof** that they work. Thresholds were set before looking at results; any change is listed under "Threshold changes".
 
@@ -19,21 +19,21 @@ Generated 2026-11-10 by `backtest\run-backtest.js` using the same `scoring.js` /
 
 | Series | First obs | Last obs | Spec expected |
 |---|---|---|---|
-| DGS30 | 1977-02-15 | 2026-11-06 | 1977 |
-| DGS20 | 1962-01-02 | 2026-11-06 | 1993 (+1962–86) |
-| DGS10 | 1962-01-02 | 2026-11-06 | 1962 |
-| DGS2 | 1976-06-01 | 2026-11-06 | 1976 |
-| DFII10 | 2003-01-02 | 2026-11-06 | 2003 |
-| T10YIE | 2003-01-02 | 2026-11-09 | 2003 |
-| DFF | 1954-07-01 | 2026-11-06 | 1954 |
+| DGS30 | 1977-02-15 | 2026-11-09 | 1977 |
+| DGS20 | 1962-01-02 | 2026-11-09 | 1993 (+1962–86) |
+| DGS10 | 1962-01-02 | 2026-11-09 | 1962 |
+| DGS2 | 1976-06-01 | 2026-11-09 | 1976 |
+| DFII10 | 2003-01-02 | 2026-11-09 | 2003 |
+| T10YIE | 2003-01-02 | 2026-11-10 | 2003 |
+| DFF | 1954-07-01 | 2026-11-09 | 1954 |
 | UNRATE | 1948-01-01 | 2026-10-01 | 1948 |
 | PAYEMS | 1939-01-01 | 2026-10-01 | 1939 |
 | BAMLH0A0HYM2 | 2023-11-13 | 2026-11-09 | 1996 (verify) |
-| T10Y3M | 1982-01-04 | 2026-11-09 | 1982 |
+| T10Y3M | 1982-01-04 | 2026-11-10 | 1982 |
 | SAHMREALTIME | 1959-12-01 | 2026-10-01 | 1959 |
 | ICSA | 1967-01-07 | 2026-10-31 | 1967 |
 | NFCI | 1971-01-08 | 2026-10-30 | 1971 |
-| BAA10Y | 1986-01-02 | 2026-11-06 | 1986 |
+| BAA10Y | 1986-01-02 | 2026-11-09 | 1986 |
 | VIXCLS | 1990-01-02 | 2026-11-09 | 1990 |
 | USREC | 1854-12-01 | 2026-10-01 | 1854 |
 
