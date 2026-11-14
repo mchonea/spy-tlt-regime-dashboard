@@ -27,10 +27,10 @@ window.BACKTEST_SUMMARY = {
   "precisionVal": 0
  },
  "tlt": {
-  "medianFwd6mHigh": 0.014529559873140974,
-  "medianFwd6mLow": 0.023843876034129075
+  "medianFwd6mHigh": 0.014528825451149308,
+  "medianFwd6mLow": 0.023843609743709138
  },
- "syntheticTltCorr": 0.9809114687749929,
+ "syntheticTltCorr": 0.9809115237455899,
  "thresholdChanges": [],
  "latest": {
   "date": "2026-11-14",
@@ -42,7 +42,7 @@ window.BACKTEST_SUMMARY = {
   "confirmed": false,
   "quadrant": "RISKON",
   "unconfirmed": false,
-  "rho": 0.0981243027463774,
+  "rho": 0.09812402015602138,
   "shock": "Inflation/rates shock",
   "confidenceMet": 0,
   "confidenceApplies": false
