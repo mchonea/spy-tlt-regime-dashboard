@@ -1,5 +1,5 @@
 window.BACKTEST_SUMMARY = {
- "generated": "2026-11-13",
+ "generated": "2026-11-14",
  "dataThrough": "2026-11-13",
  "liveDate": "2026-11-14",
  "bears": {
@@ -27,22 +27,22 @@ window.BACKTEST_SUMMARY = {
   "precisionVal": 0
  },
  "tlt": {
-  "medianFwd6mHigh": 0.01452882189438709,
-  "medianFwd6mLow": 0.02384293478660582
+  "medianFwd6mHigh": 0.014529559873140974,
+  "medianFwd6mLow": 0.023843876034129075
  },
- "syntheticTltCorr": 0.9805340967533899,
+ "syntheticTltCorr": 0.9809114687749929,
  "thresholdChanges": [],
  "latest": {
   "date": "2026-11-14",
   "S": 25,
-  "T": 55,
+  "T": 35,
   "A": 0.25,
   "B": 0.16666666666666666,
   "C": 0.3333333333333333,
   "confirmed": false,
-  "quadrant": "BONDRALLY",
+  "quadrant": "RISKON",
   "unconfirmed": false,
-  "rho": 0.0995324594189523,
+  "rho": 0.0981243027463774,
   "shock": "Inflation/rates shock",
   "confidenceMet": 0,
   "confidenceApplies": false
