@@ -1,29 +1,3 @@
-2026-11-14 03:28:51  OK    SPY              8507 rows  1993-01-29 -> 2026-11-13  [Yahoo]
-2026-11-14 03:28:52  OK    TLT              6114 rows  2002-07-30 -> 2026-11-13  [Yahoo]
-2026-11-14 03:28:53  OK    XLY              7017 rows  1998-12-22 -> 2026-11-13  [Yahoo]
-2026-11-14 03:28:54  OK    XLP              7017 rows  1998-12-22 -> 2026-11-13  [Yahoo]
-2026-11-14 03:28:56  OK    ^GSPC           14340 rows  1970-01-02 -> 2026-11-13  [Yahoo]
-2026-11-14 03:28:56  Wrote market-data.js (17/17 FRED series, 5/5 price series; price source: Yahoo).
-2026-11-14 17:54:12  ---- run start ----
-2026-11-14 17:54:12  FRED source: official API (FRED key: environment)
-2026-11-14 17:54:12  Tiingo key: none
-2026-11-14 17:54:13  OK    DGS30           12431 observations  1977-02-15 -> 2026-11-12
-2026-11-14 17:54:14  OK    DGS20           14512 observations  1962-01-02 -> 2026-11-12
-2026-11-14 17:54:15  OK    DGS10           16201 observations  1962-01-02 -> 2026-11-12
-2026-11-14 17:54:15  OK    DGS2            12609 observations  1976-06-01 -> 2026-11-12
-2026-11-14 17:54:16  OK    DFII10           5970 observations  2003-01-02 -> 2026-11-12
-2026-11-14 17:54:17  OK    T10YIE           5971 observations  2003-01-02 -> 2026-11-13
-2026-11-14 17:54:18  OK    DFF             26433 observations  1954-07-01 -> 2026-11-12
-2026-11-14 17:54:19  OK    UNRATE            945 observations  1948-01-01 -> 2026-10-01
-2026-11-14 17:54:19  OK    PAYEMS           1054 observations  1939-01-01 -> 2026-10-01
-2026-11-14 17:54:20  OK    BAMLH0A0HYM2      785 observations  2023-11-14 -> 2026-11-12
-2026-11-14 17:54:21  OK    T10Y3M          11219 observations  1982-01-04 -> 2026-11-13
-2026-11-14 17:54:21  OK    SAHMREALTIME      802 observations  1959-12-01 -> 2026-10-01
-2026-11-14 17:54:22  OK    ICSA             3123 observations  1967-01-07 -> 2026-11-07
-2026-11-14 17:54:23  OK    NFCI             2914 observations  1971-01-08 -> 2026-11-06
-2026-11-14 17:54:24  OK    BAA10Y          10216 observations  1986-01-02 -> 2026-11-12
-2026-11-14 17:54:24  OK    VIXCLS           9316 observations  1990-01-02 -> 2026-11-12
-2026-11-14 17:54:25  OK    USREC            2063 observations  1854-12-01 -> 2026-10-01
 2026-11-14 17:54:26  OK    SPY              8507 rows  1993-01-29 -> 2026-11-13  [Yahoo]
 2026-11-14 17:54:27  OK    TLT              6114 rows  2002-07-30 -> 2026-11-13  [Yahoo]
 2026-11-14 17:54:28  OK    XLY              7017 rows  1998-12-22 -> 2026-11-13  [Yahoo]
@@ -498,3 +472,29 @@
 2026-11-23 23:45:26  OK    XLP              7023 rows  1998-12-22 -> 2026-11-23  [Yahoo]
 2026-11-23 23:45:27  OK    ^GSPC           14346 rows  1970-01-02 -> 2026-11-23  [Yahoo]
 2026-11-23 23:45:28  Wrote market-data.js (17/17 FRED series, 5/5 price series; price source: Yahoo).
+2026-11-24 07:01:57  ---- run start ----
+2026-11-24 07:01:57  FRED source: official API (FRED key: environment)
+2026-11-24 07:01:57  Tiingo key: none
+2026-11-24 07:01:58  OK    DGS30           12437 observations  1977-02-15 -> 2026-11-20
+2026-11-24 07:01:59  OK    DGS20           14518 observations  1962-01-02 -> 2026-11-20
+2026-11-24 07:01:59  OK    DGS10           16207 observations  1962-01-02 -> 2026-11-20
+2026-11-24 07:02:01  OK    DGS2            12615 observations  1976-06-01 -> 2026-11-20
+2026-11-24 07:02:02  OK    DFII10           5976 observations  2003-01-02 -> 2026-11-20
+2026-11-24 07:02:02  OK    T10YIE           5977 observations  2003-01-02 -> 2026-11-23
+2026-11-24 07:02:03  OK    DFF             26441 observations  1954-07-01 -> 2026-11-20
+2026-11-24 07:02:04  OK    UNRATE            945 observations  1948-01-01 -> 2026-10-01
+2026-11-24 07:02:04  OK    PAYEMS           1054 observations  1939-01-01 -> 2026-10-01
+2026-11-24 07:02:05  OK    BAMLH0A0HYM2      784 observations  2023-11-24 -> 2026-11-20
+2026-11-24 07:02:06  OK    T10Y3M          11225 observations  1982-01-04 -> 2026-11-23
+2026-11-24 07:02:07  OK    SAHMREALTIME      802 observations  1959-12-01 -> 2026-10-01
+2026-11-24 07:02:07  OK    ICSA             3124 observations  1967-01-07 -> 2026-11-14
+2026-11-24 07:02:08  OK    NFCI             2915 observations  1971-01-08 -> 2026-11-13
+2026-11-24 07:02:09  OK    BAA10Y          10222 observations  1986-01-02 -> 2026-11-20
+2026-11-24 07:02:09  OK    VIXCLS           9322 observations  1990-01-02 -> 2026-11-20
+2026-11-24 07:02:11  OK    USREC            2063 observations  1854-12-01 -> 2026-10-01
+2026-11-24 07:02:12  OK    SPY              8513 rows  1993-01-29 -> 2026-11-23  [Yahoo]
+2026-11-24 07:02:12  OK    TLT              6120 rows  2002-07-30 -> 2026-11-23  [Yahoo]
+2026-11-24 07:02:14  OK    XLY              7023 rows  1998-12-22 -> 2026-11-23  [Yahoo]
+2026-11-24 07:02:15  OK    XLP              7023 rows  1998-12-22 -> 2026-11-23  [Yahoo]
+2026-11-24 07:02:16  OK    ^GSPC           14346 rows  1970-01-02 -> 2026-11-23  [Yahoo]
+2026-11-24 07:02:16  Wrote market-data.js (17/17 FRED series, 5/5 price series; price source: Yahoo).
