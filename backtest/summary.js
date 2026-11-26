@@ -27,10 +27,10 @@ window.BACKTEST_SUMMARY = {
   "precisionVal": 0
  },
  "tlt": {
-  "medianFwd6mHigh": 0.014529315065810344,
-  "medianFwd6mLow": 0.02369578572253439
+  "medianFwd6mHigh": 0.0145285806438189,
+  "medianFwd6mLow": 0.023695673312107646
  },
- "syntheticTltCorr": 0.9808890758516481,
+ "syntheticTltCorr": 0.9808893362099698,
  "thresholdChanges": [],
  "latest": {
   "date": "2026-11-26",
